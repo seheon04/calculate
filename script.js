@@ -1,68 +1,73 @@
-const widthInput = document.getElementById('width');
-const heightInput = document.getElementById('height');
-const resultDisplay = document.getElementById('result');
-const widthErrorDisplay = document.getElementById('width-error');
-const heightErrorDisplay = document.getElementById('height-error');
-const resetBtn = document.getElementById('reset-btn');
-const copyBtn = document.getElementById('copy-btn');
-const copyMessage = document.getElementById('copy-message');
-
-function calculate() {
-  const width = widthInput.value;
-  const height = heightInput.value;
-
-  let hasError = false;
-
-  // Validate the width input
-  if (width === '') {
-    widthErrorDisplay.innerHTML = 'Please enter a value for width.';
-    hasError = true;
-  } else if (isNaN(width)) {
-    widthErrorDisplay.innerHTML = 'Width must be a number.';
-    hasError = true;
-  } else {
-    widthErrorDisplay.innerHTML = '';
+function validateInput(input, errorElement) {
+  let errorMessage = '';
+  if (input === '') {
+    errorMessage = 'Value is required';
+  } else if (isNaN(input)) {
+    errorMessage = 'Value must be a number';
   }
-
-  // Validate the height input
-  if (height === '') {
-    heightErrorDisplay.innerHTML = 'Please enter a value for height.';
-    hasError = true;
-  } else if (isNaN(height)) {
-    heightErrorDisplay.innerHTML = 'Height must be a number.';
-    hasError = true;
-  } else {
-    heightErrorDisplay.innerHTML = '';
-  }
-
-  // If both inputs are valid, calculate the angle and display the result
-  if (!hasError) {
-    const angleInRadians = Math.atan2(width, height);
-    const angleInDegrees = angleInRadians * (180 / Math.PI);
-    resultDisplay.value = angleInDegrees.toFixed(4);
-  } else {
-    resultDisplay.value = '';
-  }
+  errorElement.innerHTML = errorMessage; // errorElement이 null일 수 있으므로 if문으로 체크해줍니다.
 }
 
-function reset() {
-  widthInput.value = '';
+function swapValues() {
+  const heightInput = document.getElementById('height');
+  const widthInput = document.getElementById('width');
+
+  let temp = heightInput.value;
+  heightInput.value = widthInput.value;
+  widthInput.value = temp;
+}
+
+function calculateAngle() {
+  const heightInput = document.getElementById('height');
+  const widthInput = document.getElementById('width');
+  const angleInput = document.getElementById('angle');
+
+  const height = parseInt(heightInput.value);
+  const width = parseInt(widthInput.value);
+
+  if (isNaN(height) || isNaN(width)) {
+    angleInput.value = 'Invalid input';
+    return;
+  }
+
+  const angle = Math.atan(height / width) * (180 / Math.PI);
+  angleInput.value = `${angle.toFixed(4)}°`;
+}
+
+function resetValues() {
+  const heightInput = document.getElementById('height');
+  const widthInput = document.getElementById('width');
+  const angleInput = document.getElementById('angle');
   heightInput.value = '';
-  resultDisplay.value = '';
-  widthErrorDisplay.innerHTML = '';
-  heightErrorDisplay.innerHTML = '';
+  widthInput.value = '';
+  angleInput.value = '';
 }
 
-function copyResult() {
-  resultDisplay.select();
+function copyAngle() {
+  const angleInput = document.getElementById('angle');
+  angleInput.select();
   document.execCommand('copy');
-  copyMessage.style.display = 'block';
-  setTimeout(() => {
-    copyMessage.style.display = 'none';
-  }, 1000);
 }
 
-widthInput.addEventListener('input', calculate);
-heightInput.addEventListener('input', calculate);
-resetBtn.addEventListener('click', reset);
-copyBtn.addEventListener('click', copyResult);
+// 실시간으로 오류메세지 출력
+document.addEventListener('DOMContentLoaded', () => {
+  const heightInput = document.getElementById('height');
+  const heightErrorElement = document.getElementById('height-error');
+  heightInput.addEventListener('input', () => {
+    validateInput(heightInput.value, heightErrorElement);
+  });
+
+  const widthInput = document.getElementById('width');
+  const widthErrorElement = document.getElementById('width-error');
+  widthInput.addEventListener('input', () => {
+    validateInput(widthInput.value, widthErrorElement);
+  });
+});
+
+// 엔터키로도 계산 가능
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault(); // 엔터키의 기본 동작인 줄바꿈을 막습니다.
+    calculateAngle();
+  }
+});
