@@ -1,49 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <title>Other page</title>
     <meta charset="UTF-8" />
-    <title>Rectangle Diagonal Angle Calculator</title>
-    <!-- Link to the stylesheet -->
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <!-- Container for the form -->
-    <div class="container">
-      <!-- Form title -->
-      <h2>Rectangle Diagonal Angle Calculator</h2>
-
-      <!-- Input for width -->
-      <div>
-        <label for="width">Width</label>
-        <input type="number" id="width" value="0" class="valid" required />
-        <!-- Error message for width -->
-        <span class="error-message" id="width-error"></span>
-      </div>
-
-      <!-- Input for height -->
-      <div>
-        <label for="height">Height</label>
-        <input type="number" id="height" value="0" class="valid" required />
-        <!-- Error message for height -->
-        <span class="error-message" id="height-error"></span>
-      </div>
-
-      <!-- Buttons for reset and copy -->
-      <div>
-        <button id="reset-btn">Reset</button>
-        <button id="copy-btn">Copy Result</button>
-        <!-- Message for copy -->
-        <div id="copy-message" style="display: none">Copied!</div>
-      </div>
-
-      <!-- Input for result -->
-      <div>
-        <label for="result">Angle</label>
-        <input type="text" id="result" value="0" disabled />
-      </div>
+    <div class="background">
+      <div class="shape"></div>
+      <div class="shape"></div>
     </div>
-
-    <!-- Link to the JavaScript file -->
-    <script type="text/javascript" src="script.js"></script>
+    <form class="container">
+      <h3>Diagonal Angle Calculator</h3>
+      <div class="input-group">
+        <label for="height">Height</label>
+        <input type="text" id="height" placeholder="Enter height in pixels" />
+        <span id="height-error" class="error"></span>
+      </div>
+      <div class="input-group">
+        <label for="width">Width</label>
+        <input type="text" id="width" placeholder="Enter width in pixels" />
+        <span id="width-error" class="error"></span>
+      </div>
+      <div class="output-group">
+        <label for="angle">Angle</label>
+        <input type="text" id="angle" readonly value="" />
+      </div>
+      <button id="calculate" type="button" onclick="calculateAngle()">
+        Calculate
+      </button>
+      <div class="social">
+        <div id="swap" onclick="swapValues()">Swap</div>
+        <div id="reset" onclick="resetValues()">Reset</div>
+        <div id="copy" onclick="copyAngle()">Copy</div>
+      </div>
+    </form>
   </body>
 </html>
