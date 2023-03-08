@@ -1,2 +1,0 @@
-# calculate
-diagonal angle calculator
